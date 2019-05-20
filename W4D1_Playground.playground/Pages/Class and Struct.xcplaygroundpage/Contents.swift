@@ -12,8 +12,9 @@
  */
 class ShapeClass {
     var numberOfSides = 0
+  var name  = "hello"
     func description() -> String {
-        return "A shape with \(numberOfSides) sides."
+        return "A shape with \(numberOfSides) sides \(name)."
     }
 }
 /*:
@@ -36,7 +37,10 @@ struct ShapeStruct {
  - Experiment:
  Try creating an instance of the ShapeClass. We can do this by writing the class name then putting parentheses '()' after the class name. Assign it to a declared variable and try setting the variables 'numberofSides' and 'name' and calling the 'description' method.
  */
-
+var newShape = ShapeClass()
+newShape.numberOfSides = 5
+newShape.name = "goodbye"
+newShape.description()
 
 /*:
  Our ShapeClass is looking good but it is missing something important. We need an initializer to set up the class when an instance is created. We are going to create another class very similar to ShapeClass but this time, we will add the initializer.
@@ -49,6 +53,11 @@ class NamedShapeClass {
     init(name: String) {
         self.name = name
     }
+  
+  init(name:String, numberOfSides:Int) {
+    self.name = name
+    self.numberOfSides = numberOfSides
+  }
     
     func description() -> String {
         return "A shape with \(numberOfSides) sides."
@@ -59,7 +68,7 @@ class NamedShapeClass {
  - Experiment:
  Add another initializer to our 'NamedShapeClass'. Have this initializer take in 'name' and 'numberOfSides' as its parameters. Then test it out by creating an instance of 'NamedShapeClass'.
  */
-
+let anotherShape = NamedShapeClass.init(name: "what", numberOfSides: 5)
 
 /*:
  - Callout(Challenge):
@@ -72,8 +81,24 @@ class NamedShapeClass {
  */
 
 class Square : NamedShapeClass {
-    
+  var sideLength : Int
+  
+  init(name:String, sideLength:Int) {
+    self.sideLength = sideLength
+    super.init(name: name, numberOfSides: 4)
+  }
+  
+  func area() -> Int{
+    return sideLength*sideLength
+  }
+  
+  override func description() -> String {
+    return ("the side length is \(sideLength), number of sides is \(super.numberOfSides)")
+  }
 }
+
+let square = Square(name: "square", sideLength: 10)
+print(square.area())
 
 /*:
  - Callout(Challenge):
@@ -90,7 +115,28 @@ class Square : NamedShapeClass {
  - Add an instance of Toyota called toyota. Initialize it.
  - Add the drive() method to make sure it prints out "Prius"
  */
+class Car{
+  var model : String
+  
+  func drive(){
+    print("model of car \(model)")
+  }
+  
+  init(model:String) {
+    self.model = model
+  }
+}
 
+class Toyota:Car{
+  override init(model: String) {
+    super.init(model: "Prius")
+  }
+}
+
+let nissan = Car(model: "rougue")
+nissan.drive()
+let toyota = Toyota(model: "model")
+toyota.drive()
 
 
 /*:
@@ -102,21 +148,29 @@ First, create a Person class with a name property and a custom initializer that 
 Now create the same Person class but convert it to a struct. Uncomment 'Section B'. What do think will happen? What are the results?
 */
 // Implement Person class under here!
-
+class Person{
+  var name:String
+  init(name:String) {
+    self.name = name
+  }
+}
 
 // Section A
-//var firstPersonObject = Person(name: "Joe")
-//var secondPersonObject = firstPersonObject
-//secondPersonObject.name = "Jane"
-//
-//print(firstPersonObject.name)
-//print(secondPersonObject.name)
+var firstPersonObject = Person(name: "Joe")
+var secondPersonObject = firstPersonObject
+secondPersonObject.name = "Jane"
+
+print(firstPersonObject.name)
+print(secondPersonObject.name)
 
 
 // Implement Person struct under here!
-
-
-// Section B
+//struct Person{
+//  var name:String
+//
+//}
+//
+//// Section B
 //var firstPersonStruct = Person(name: "Joe")
 //var secondPersonStruct = firstPersonStruct
 //secondPersonStruct.name = "Jane"

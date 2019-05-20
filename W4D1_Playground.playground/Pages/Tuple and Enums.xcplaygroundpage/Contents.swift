@@ -23,13 +23,15 @@ namedPersonTuple.age
  - Experiment:
  Try creating your own tuple. Mix in different variable types and try mixing some parameters with names and some without. Does it still work?
  */
-
+var myTuple = ("jane", lastname:"smith", 3)
 
 /*:
  - Experiment:
  Try nesting tuples within one another. Create a tuple and add a tuple as one of its items.
  */
 
+var childTuple = (1,2,3,4,5)
+var parentTuple = (1,childTuple,2,3,4)
 
 /*:
  - Experiment:
@@ -42,7 +44,10 @@ let interestingNumbers = [
     "Square": [1, 4, 9, 16, 25],
 ]
 for (kind, numbers) in interestingNumbers {
-    
+  print(kind)
+  for number in numbers {
+    print(number)
+  }
 }
 
 /*:
@@ -52,7 +57,15 @@ for (kind, numbers) in interestingNumbers {
 To test: call your new function with eligable true and false, and print the two values
  (Hint: Use optional return value and conditional unwrapping)
  */
+func take3para(name:String, age:Int, eligable:Bool) -> (String,Int)?{
+  if eligable == true {
+    return(name, age)
+  } else{
+    return nil
+  }
+}
 
+take3para(name: "hello", age: 20, eligable: true)
 
 /*:
  ## Enums
@@ -63,24 +76,35 @@ To test: call your new function with eligable true and false, and print the two 
  */
 
 enum Months: Int{
-    case January = 1
+    case January
     case Feburary
     case March
     case April
     case May, June, July, August
+    case Sept,Oct,Nov,Dec
     //...
     
     func abbreviatedStringForm() -> String {
         switch self {
+        case .January:
+          return "jan"
+        case .Feburary:
+          return "feb"
             default:
                 return ""
         }
     }
+  func compareMonths(month2:Months)->Int{
+      return self.rawValue - month2.rawValue
+  }
 }
 
 //: Now we can represents the months in our program with easy readiablity and minimal mistakes.
-let januaryMonth = Months.January
-let marchMonth = Months.March
+let januaryMonth = Months.January.rawValue
+let marchMonth = Months.March.rawValue
+
+print(januaryMonth)
+print(marchMonth)
 
 /*:
  - Experiment:
@@ -88,7 +112,7 @@ let marchMonth = Months.March
  \
 Try removing the '= 1' from the Months enum. Now what is different?
  */
-
+//raw value starts at 0 instead of 1
 
 /*:
  - Experiment:
@@ -100,12 +124,41 @@ Try removing the '= 1' from the Months enum. Now what is different?
  - Experiment:
  Write a function within the enum that compares two months and determines how many months are they apart. For example: Comparing January to March would return to me '2', because January and March are two months apart.
  */
-
+Months.January.abbreviatedStringForm()
+let dec = Months.Dec
+dec.compareMonths(month2: Months.January)
 
 /*:
  - Callout(Challenge):
  Create enums for the game "Rock, Paper, Scissors". Create a function within the enum that compares two hand shapes and determines the winner. Then create a function that returns ✋ , ✌️, or 👊 given rock, paper, or scissors.
 */
+enum RockPaperScissor : String{
+  case rock = "👊"
+  case paper = "✋"
+  case scissor = "🤘"
+  
+  func compare(action2:RockPaperScissor) -> String{
+    if self == RockPaperScissor.rock && action2 == RockPaperScissor.paper {
+      return "loser"
+    } else if self == RockPaperScissor.rock && action2 == RockPaperScissor.rock{
+      return "tied"
+    } else if self == RockPaperScissor.rock && action2 == RockPaperScissor.scissor{
+      return "winner"
+    }else if self == RockPaperScissor.scissor && action2 == RockPaperScissor.rock{
+      return "loser"
+    }else if self == RockPaperScissor.scissor && action2 == RockPaperScissor.scissor{
+      return "tied"
+    }else if self == RockPaperScissor.scissor && action2 == RockPaperScissor.paper{
+      return "winner"
+    }else{
+      return "you both win"
+    }
+  }
+}
+
+let rock = RockPaperScissor.rock
+rock.compare(action2: RockPaperScissor.scissor)
+
 
 
 //: [Next](@next)
